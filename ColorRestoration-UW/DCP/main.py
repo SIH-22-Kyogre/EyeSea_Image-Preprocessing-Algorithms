@@ -11,7 +11,6 @@ import natsort
 import xlwt
 
 from .getChannels import *
-from .GuidedFilter import GuidedFilter
 
 from config import config
 

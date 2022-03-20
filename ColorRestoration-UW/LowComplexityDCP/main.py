@@ -5,53 +5,52 @@ import natsort
 import matplotlib.pyplot as plt
 
 
-from TransmissionMap import TransmissionComposition
-from getAtomsphericLight import getAtomsphericLight
-from getColorContrastEnhancement import ColorContrastEnhancement
-from getRGBDarkChannel import getDarkChannel
-from getSceneRadiance import SceneRadiance
+from .TransmissionMap import TransmissionComposition
+from .getAtomsphericLight import getAtomsphericLight
+from .getColorContrastEnhancement import ColorContrastEnhancement
+from .getRGBDarkChannel import getDarkChannel
+from .getSceneRadiance import SceneRadiance
+from .getTransmissionEstimation import getTransmissionMap
 
+from config import config
 
+def run(base_path=None, input_dirname=None, output_dirname=None):
 
+	if base_path is None:
+		base_path = config.get('BASE_PATH')
+	if input_dirname is None:
+		input_dirname = config.get('INPUT_DIRNAME')
+	if output_dirname is None:
+		output_dirname = config.get('OUTPUT_DIRNAME')
 
+	in_path = os.path.join(base_path, input_dirname)
+	out_path = os.path.join(base_path, output_dirname)
+	files = os.listdir(in_path)
+	files = natsort.natsorted(files)
+	before_paths = []
+	after_paths = []
 
-######################## Based on the DCP and the 0.1% brightest point is incorrect ########################
-######################## Based on the DCP and the 0.1% brightest point is incorrect ########################
-######################## Based on the DCP and the 0.1% brightest point is incorrect  and further cause the distortion of the restored images ########################
-from getTransmissionEstimation import getTransmissionMap
+	for i in range(len(files)):
+		file = files[i]
+		filepath = os.path.join(in_path, file)
+		prefix = file.split('.')[0]
+		format_ = file.split('.')[1]
+		if os.path.isfile(filepath):
+			print('Working on', file)
+			before_paths.append(os.path.join(in_path, file))
+			img = cv2.imread(before_paths[-1])
 
-np.seterr(over='ignore')
-if __name__ == '__main__':
-    pass
-
-# folder = "C:/Users/Administrator/Desktop/UnderwaterImageEnhancement/Physical/LowComplexityDCP"
-folder = "C:/Users/Administrator/Desktop/Databases/Dataset"
-path = folder + "/InputImages"
-files = os.listdir(path)
-files =  natsort.natsorted(files)
-
-for i in range(len(files)):
-    file = files[i]
-    filepath = path + "/" + file
-    prefix = file.split('.')[0]
-    if os.path.isfile(filepath):
-        print('********    file   ********',file)
-        img = cv2.imread(folder +'/InputImages/' + file)
-
-        blockSize = 9
-
-        imgGray = getDarkChannel(img, blockSize)
-        AtomsphericLight = getAtomsphericLight(imgGray, img, meanMode=True, percent=0.001)
-        # print('AtomsphericLight',AtomsphericLight)
-        transmission = getTransmissionMap(img, AtomsphericLight, blockSize)
-        sceneRadiance = SceneRadiance(img, AtomsphericLight, transmission)
-        sceneRadiance = ColorContrastEnhancement(sceneRadiance)
-
-        cv2.imwrite('OutputImages/' + prefix + '_LowComplexityDCPMap.jpg', np.uint8(transmission * 255))
-        cv2.imwrite('OutputImages/' + prefix + '_LowComplexityDCP.jpg', sceneRadiance)
-
-        #
-        # plt.imshow(np.uint8(img))
-        # plt.show()
+			blockSize = 9
+			imgGray = getDarkChannel(img, blockSize)
+			AtomsphericLight = getAtomsphericLight(imgGray, img, meanMode=True, percent=0.001)
+			transmission = getTransmissionMap(img, AtomsphericLight, blockSize)
+			sceneRadiance = SceneRadiance(img, AtomsphericLight, transmission)
+			sceneRadiance = ColorContrastEnhancement(sceneRadiance)
+			
+			after_paths.append(os.path.join(out_path, prefix + '_LC-DCP.' + format_))
+			cv2.imwrite(after_paths[-1], sceneRadiance)
+			cv2.imwrite(os.path.join(out_path, prefix + '_LC-DCP_transmission.' + format_), np.uint8(transmission * 255))
+	
+	return (before_paths, after_paths)
 
 
