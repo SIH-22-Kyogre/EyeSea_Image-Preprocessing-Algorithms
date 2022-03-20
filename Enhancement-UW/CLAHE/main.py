@@ -10,24 +10,27 @@ from .sceneRadianceHE import RecoverHE
 
 from config import config
 
-def run(base_path=None, input_dirname=None):
+def run(base_path=None, input_dirname=None, output_dirname=None):
 
 	if base_path is None:
 		base_path = config.get('BASE_PATH')
 	if input_dirname is None:
 		input_dirname = config.get('INPUT_DIRNAME')
+	if output_dirname is None:
+		output_dirname = config.get('OUTPUT_DIRNAME')
 
-	path = os.path.join(base_path, input_dirname)
-	files = os.listdir(path)
+	in_path = os.path.join(base_path, input_dirname)
+	out_path = os.path.join(base_path, output_dirname)
+	files = os.listdir(in_path)
 	files =  natsort.natsorted(files)
+
 	for i in range(len(files)):
 		file = files[i]
-		filepath = path + "/" + file
+		filepath = os.path.join(in_path, file)
 		prefix = file.split('.')[0]
+		format_ = file.split('.')[1]
 		if os.path.isfile(filepath):
-			print('********    file   ********',file)
-			# img = cv2.imread('InputImages/' + file)
-			img = cv2.imread(folder + '/InputImages/' + file)
+			print('Working on', file)
+			img = cv2.imread(os.path.join(in_path, file))
 			sceneRadiance = RecoverCLAHE(img)
-			# cv2.imwrite('OutputImages/' + prefix + '_CLAHE.jpg', sceneRadiance)
-			cv2.imwrite('Temps/' + prefix + '_CLAHE.jpg', sceneRadiance)
+			cv2.imwrite(os.path.join(out_path, prefix + '_CLAHE.' + format_), sceneRadiance)
