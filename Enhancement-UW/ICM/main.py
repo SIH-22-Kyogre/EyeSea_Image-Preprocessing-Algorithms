@@ -28,6 +28,9 @@ def run(base_path=None, input_dirname=None, output_dirname=None):
 
 	for i in range(len(files)):
 		file = files[i]
+		if file in config.get('IGNORE_FILES'):
+			continue
+			
 		filepath = os.path.join(in_path, file)
 		prefix = file.split('.')[0]
 		format_ = file.split('.')[1]

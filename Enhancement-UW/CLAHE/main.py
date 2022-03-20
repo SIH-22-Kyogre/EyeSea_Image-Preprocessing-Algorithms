@@ -23,14 +23,25 @@ def run(base_path=None, input_dirname=None, output_dirname=None):
 	out_path = os.path.join(base_path, output_dirname)
 	files = os.listdir(in_path)
 	files =  natsort.natsorted(files)
+	before_paths = []
+	after_paths = []
 
 	for i in range(len(files)):
 		file = files[i]
+		if file in config.get('IGNORE_FILES'):
+			continue
+			
 		filepath = os.path.join(in_path, file)
 		prefix = file.split('.')[0]
 		format_ = file.split('.')[1]
 		if os.path.isfile(filepath):
 			print('Working on', file)
-			img = cv2.imread(os.path.join(in_path, file))
+			before_paths.append(os.path.join(in_path, file))
+			img = cv2.imread(before_paths[-1])
+
 			sceneRadiance = RecoverCLAHE(img)
-			cv2.imwrite(os.path.join(out_path, prefix + '_CLAHE.' + format_), sceneRadiance)
+
+			after_paths.append(os.path.join(out_path, prefix + '_CLAHE.' + format_))
+			cv2.imwrite(after_paths[-1], sceneRadiance)
+	
+	return (before_paths, after_paths)
