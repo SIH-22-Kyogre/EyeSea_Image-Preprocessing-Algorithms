@@ -23,7 +23,7 @@
 - IBLA: Underwater Image Restoration Based on Image Blurriness and Light Absorption 
 - LowComplexityDCP: Low Complexity Underwater Image Enhancement Based on Dark Channel Prior 
 - MIP: Initial results in underwater single image dehazing 
-- NewOpticalModel: Single underwater image enhancement with a new optical model 
+- New Optical Model: Single underwater image enhancement with a new optical model ([paper](http://www.jdl.link/doc/2011/201372615482341921_iscas2013_single_underwater_image_enhancement_with_an_improved_optical_model.pdf))
 - RoWS: Removal of water scattering 
 - UDCP: Transmission Estimation in Underwater Single Images 
 - ULAP: A Rapid Scene Depth Estimation Model Based on Underwater Light Attenuation Prior for Underwater Image Restoration
