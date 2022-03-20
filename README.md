@@ -4,7 +4,7 @@
 - Edit the corresponding `run.py` script to uncomment the algorithm to be applied
 - Execute the script:
   - To only generate the images: `python run.py`
-  - To visualize before-after for each image: `python run.py`
+  - To visualize before-after for each image: `python run.py --visualize`
 - The processed images are stored in the corresponding `data/output/` directory
 
 
