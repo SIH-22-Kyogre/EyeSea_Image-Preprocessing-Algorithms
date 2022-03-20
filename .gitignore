@@ -1,6 +1,10 @@
 .token
+
 Enhancement-UW/data/*
-!Enhancement-UW/data/test.file
+!Enhancement-UW/data/input/test.file
+!Enhancement-UW/data/output/test.file
+
 ColorRestoration-UW/data/*
-ColorRestoration-UW/data/test.file
+ColorRestoration-UW/data/input/test.file
+ColorRestoration-UW/data/output/test.file
 
