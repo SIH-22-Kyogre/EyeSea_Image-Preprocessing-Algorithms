@@ -2,7 +2,9 @@
 
 - Place input images in `data/input/` directory of corresponding processing operations (i.e Color Restoration or Enhancement)
 - Edit the corresponding `run.py` script to uncomment the algorithm to be applied
-- Execute the script: `python run.py`
+- Execute the script:
+  - To only generate the images: `python run.py`
+  - To visualize before-after for each image: `python run.py`
 - The processed images are stored in the corresponding `data/output/` directory
 
 
