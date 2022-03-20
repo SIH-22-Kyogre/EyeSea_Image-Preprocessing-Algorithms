@@ -1,8 +1,7 @@
-# ———————————————————————————  左右两边选取参数进行拉伸 mode/std and 0.95%/t_n ——————————————————————————————————
 
 import math
 import numpy as np
-from stretchRange import stretchrange
+from .stretchRange import stretchrange
 
 
 pi = math.pi

@@ -3,8 +3,8 @@ from skimage.color import rgb2hsv,hsv2rgb
 import numpy as np
 from skimage.color import rgb2lab, lab2rgb
 
-from global_StretchingL import global_stretching
-from global_stretching_ab import global_Stretching_ab
+from .global_StretchingL import global_stretching
+from .global_stretching_ab import global_Stretching_ab
 
 
 def  LABStretching(sceneRadiance):

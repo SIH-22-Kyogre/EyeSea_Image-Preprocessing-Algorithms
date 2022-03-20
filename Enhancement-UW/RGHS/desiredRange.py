@@ -7,17 +7,12 @@ def stretchrange(r_array, height, width):
     length = height * width
     R_rray = r_array.flatten()
     R_rray.sort()
-    print('R_rray', R_rray)
     mode = stats.mode(R_rray).mode[0]
     mode_index_before = list(R_rray).index(mode)
     # count = stats.mode(R_rray).count[0]
 
 
-    DR_min = (1-0.655) * mode
-
-
-
-
+    DR_min = (1-0.655) * modee
 
     SR_max = R_rray[int(-(length - mode_index_before) * 0.005)]
 

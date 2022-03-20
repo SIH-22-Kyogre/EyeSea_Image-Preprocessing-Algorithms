@@ -5,47 +5,46 @@ import numpy as np
 import cv2
 import natsort
 
-from LabStretching import LABStretching
-from color_equalisation import RGB_equalisation
-from global_stretching_RGB import stretching
-from relativeglobalhistogramstretching import RelativeGHstretching
+from .LabStretching import LABStretching
+from .color_equalisation import RGB_equalisation
+from .global_stretching_RGB import stretching
+from .relativeglobalhistogramstretching import RelativeGHstretching
 
-np.seterr(over='ignore')
-if __name__ == '__main__':
-    pass
+from config import config
 
+def run(base_path=None, input_dirname=None, output_dirname=None):
 
-# folder = "C:/Users/Administrator/Desktop/UnderwaterImageEnhancement/NonPhysical/RGHS"
-folder = "C:/Users/Administrator/Desktop/Databases/Dataset"
-path = folder + "/InputImages"
-files = os.listdir(path)
-files =  natsort.natsorted(files)
+	if base_path is None:
+		base_path = config.get('BASE_PATH')
+	if input_dirname is None:
+		input_dirname = config.get('INPUT_DIRNAME')
+	if output_dirname is None:
+		output_dirname = config.get('OUTPUT_DIRNAME')
 
-for i in range(len(files)):
-    file = files[i]
-    filepath = path + "/" + file
-    prefix = file.split('.')[0]
-    if os.path.isfile(filepath):
-        print('********    file   ********',file)
-        img = cv2.imread(folder +'/InputImages/' + file)
-        # img = cv2.imread('InputImages/' + file)
-        # path = np.unicode(path, 'utf-8')
-        # img = cv2.imread('InputImages/' + file)
-        # img = cv2.imread(np.unicode('InputImages/' + file, 'utf-8'))
+	in_path = os.path.join(base_path, input_dirname)
+	out_path = os.path.join(base_path, output_dirname)
+	files = os.listdir(in_path)
+	files =  natsort.natsorted(files)
+	before_paths = []
+	after_paths = []
 
-        # print('img',img)
+	for i in range(len(files)):
+		file = files[i]
+		filepath = os.path.join(in_path, file)
+		prefix = file.split('.')[0]
+		format_ = file.split('.')[1]
+		if os.path.isfile(filepath):
+			print('Working on', file)
+			before_paths.append(os.path.join(in_path, file))
+			img = cv2.imread(before_paths[-1])
 
-        height = len(img)
-        width = len(img[0])
-        # sceneRadiance = RGB_equalisation(img)
-
-        sceneRadiance = img
-        # sceneRadiance = RelativeGHstretching(sceneRadiance, height, width)
-
-        sceneRadiance = stretching(sceneRadiance)
-
-
-        sceneRadiance = LABStretching(sceneRadiance)
-
-
-        cv2.imwrite('OutputImages/' + prefix + '_RGHS.jpg', sceneRadiance)
+			height = img.shape[0]
+			width = img.shape[1]
+			sceneRadiance = img
+			sceneRadiance = stretching(sceneRadiance)
+			sceneRadiance = LABStretching(sceneRadiance)
+			
+			after_paths.append(os.path.join(out_path, prefix + '_RGHS.' + format_))
+			cv2.imwrite(after_paths[-1], sceneRadiance)
+	
+	return (before_paths, after_paths)

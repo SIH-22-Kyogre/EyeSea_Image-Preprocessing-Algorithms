@@ -5,39 +5,46 @@ import natsort
 import xlwt
 import datetime
 
-from color_equalisation import RGB_equalisation
-from global_histogram_stretching import stretching
-from hsvStretching import HSVStretching
-from sceneRadiance import sceneRadianceRGB
+from .color_equalisation import RGB_equalisation
+from .global_histogram_stretching import stretching
+from .hsvStretching import HSVStretching
+from .sceneRadiance import sceneRadianceRGB
+
+from config import config
 
 
-np.seterr(over='ignore')
-if __name__ == '__main__':
-    pass
+def run(base_path=None, input_dirname=None, output_dirname=None):
 
-# folder = "C:/Users/Administrator/Desktop/UnderwaterImageEnhancement/NonPhysical/UCM"
-folder = "C:/Users/Administrator/Desktop/Databases/Dataset"
+	if base_path is None:
+		base_path = config.get('BASE_PATH')
+	if input_dirname is None:
+		input_dirname = config.get('INPUT_DIRNAME')
+	if output_dirname is None:
+		output_dirname = config.get('OUTPUT_DIRNAME')
 
-path = folder + "/InputImages"
-files = os.listdir(path)
-files =  natsort.natsorted(files)
+	in_path = os.path.join(base_path, input_dirname)
+	out_path = os.path.join(base_path, output_dirname)
+	files = os.listdir(in_path)
+	files =  natsort.natsorted(files)
+	before_paths = []
+	after_paths = []
 
-for i in range(len(files)):
-    file = files[i]
-    filepath = path + "/" + file
-    prefix = file.split('.')[0]
-    if os.path.isfile(filepath):
-        print('********    file   ********',file)
-        # img = cv2.imread('InputImages/' + file)
-        img = cv2.imread(folder + '/InputImages/' + file)
-        # print('Number',Number)
-        sceneRadiance = RGB_equalisation(img)
-        sceneRadiance = stretching(sceneRadiance)
-        # # cv2.imwrite(folder + '/OutputImages/' + Number + 'Stretched.jpg', sceneRadiance)
-        sceneRadiance = HSVStretching(sceneRadiance)
-        sceneRadiance = sceneRadianceRGB(sceneRadiance)
-        cv2.imwrite('OutputImages/' + prefix + '_UCM.jpg', sceneRadiance)
+	for i in range(len(files)):
+		file = files[i]
+		filepath = os.path.join(in_path, file)
+		prefix = file.split('.')[0]
+		format_ = file.split('.')[1]
+		if os.path.isfile(filepath):
+			print('Working on', file)
+			before_paths.append(os.path.join(in_path, file))
+			img = cv2.imread(before_paths[-1])
 
-endtime = datetime.datetime.now()
-time = endtime-starttime
-print('time',time)
+			sceneRadiance = RGB_equalisation(img)
+			sceneRadiance = stretching(sceneRadiance)
+			sceneRadiance = HSVStretching(sceneRadiance)
+			sceneRadiance = sceneRadianceRGB(sceneRadiance)
+			
+			after_paths.append(os.path.join(out_path, prefix + '_UCM.' + format_))
+			cv2.imwrite(after_paths[-1], sceneRadiance)
+	
+	return (before_paths, after_paths)
