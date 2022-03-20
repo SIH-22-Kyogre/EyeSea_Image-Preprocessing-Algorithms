@@ -5,10 +5,10 @@ import natsort
 import xlwt
 from skimage import exposure
 
-from sceneRadianceCLAHE import RecoverCLAHE
-from sceneRadianceHE import RecoverHE
+from .sceneRadianceCLAHE import RecoverCLAHE
+from .sceneRadianceHE import RecoverHE
 
-from ..config import config
+from config import config
 
 def run(base_path=None, input_dirname=None):
 
