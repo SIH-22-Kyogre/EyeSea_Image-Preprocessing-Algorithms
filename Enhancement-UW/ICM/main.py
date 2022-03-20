@@ -3,33 +3,45 @@ import numpy as np
 import cv2
 import natsort
 import xlwt
-from global_histogram_stretching import stretching
-from hsvStretching import HSVStretching
-from sceneRadiance import sceneRadianceRGB
 
+from .global_histogram_stretching import stretching
+from .hsvStretching import HSVStretching
+from .sceneRadiance import sceneRadianceRGB
 
-np.seterr(over='ignore')
-if __name__ == '__main__':
-    pass
+from config import config
 
-# folder = "C:/Users/Administrator/Desktop/UnderwaterImageEnhancement/NonPhysical/ICM"
-folder = "C:/Users/Administrator/Desktop/Databases/Dataset"
+def run(base_path=None, input_dirname=None, output_dirname=None):
 
-path = folder + "/InputImages"
-files = os.listdir(path)
-files =  natsort.natsorted(files)
+	if base_path is None:
+		base_path = config.get('BASE_PATH')
+	if input_dirname is None:
+		input_dirname = config.get('INPUT_DIRNAME')
+	if output_dirname is None:
+		output_dirname = config.get('OUTPUT_DIRNAME')
 
-for i in range(len(files)):
-    file = files[i]
-    filepath = path + "/" + file
-    prefix = file.split('.')[0]
-    if os.path.isfile(filepath):
-        print('********    file   ********',file)
-        # img = cv2.imread('InputImages/' + file)
-        img = cv2.imread(folder + '/InputImages/' + file)
-        img = stretching(img)
-        sceneRadiance = sceneRadianceRGB(img)
-        # cv2.imwrite(folder + '/OutputImages/' + Number + 'Stretched.jpg', sceneRadiance)
-        sceneRadiance = HSVStretching(sceneRadiance)
-        sceneRadiance = sceneRadianceRGB(sceneRadiance)
-        cv2.imwrite('OutputImages/' + prefix + '_ICM.jpg', sceneRadiance)
+	in_path = os.path.join(base_path, input_dirname)
+	out_path = os.path.join(base_path, output_dirname)
+	files = os.listdir(in_path)
+	files =  natsort.natsorted(files)
+	before_paths = []
+	after_paths = []
+
+	for i in range(len(files)):
+		file = files[i]
+		filepath = os.path.join(in_path, file)
+		prefix = file.split('.')[0]
+		format_ = file.split('.')[1]
+		if os.path.isfile(filepath):
+			print('Working on', file)
+			before_paths.append(os.path.join(in_path, file))
+			img = cv2.imread(before_paths[-1])
+
+			img = stretching(img)
+			sceneRadiance = sceneRadianceRGB(img)
+			sceneRadiance = HSVStretching(sceneRadiance)
+			sceneRadiance = sceneRadianceRGB(sceneRadiance)
+			
+			after_paths.append(os.path.join(out_path, prefix + '_ICM.' + format_))
+			cv2.imwrite(after_paths[-1], sceneRadiance)
+	
+	return (before_paths, after_paths)

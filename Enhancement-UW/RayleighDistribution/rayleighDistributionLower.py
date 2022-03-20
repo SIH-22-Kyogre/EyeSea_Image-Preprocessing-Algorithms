@@ -7,7 +7,6 @@ from skimage.color import rgb2hsv,hsv2rgb
 e = np.e
 esp = 2.2204e-16
 
-# 用于排序时存储原来像素点位置的数据结构
 class Node(object):
 	def __init__(self,x,y,value):
 		self.x = x

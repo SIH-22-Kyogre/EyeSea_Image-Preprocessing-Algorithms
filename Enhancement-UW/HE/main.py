@@ -6,26 +6,41 @@ import natsort
 import xlwt
 from skimage import exposure
 
-from sceneRadianceCLAHE import RecoverCLAHE
-from sceneRadianceHE import RecoverHE
+from .sceneRadianceCLAHE import RecoverCLAHE
+from .sceneRadianceHE import RecoverHE
 
-np.seterr(over='ignore')
-if __name__ == '__main__':
-    pass
-folder = "C:/Users/Administrator/Desktop/UnderwaterImageEnhancement/NonPhysical/HE"
-# folder = "C:/Users/Administrator/Desktop/Databases/Dataset"
+from config import config
 
-path = folder + "/InputImages"
-files = os.listdir(path)
-files =  natsort.natsorted(files)
 
-for i in range(len(files)):
-    file = files[i]
-    filepath = path + "/" + file
-    prefix = file.split('.')[0]
-    if os.path.isfile(filepath):
-        print('********    file   ********',file)
-        # img = cv2.imread('InputImages/' + file)
-        img = cv2.imread(folder + '/InputImages/' + file)
-        sceneRadiance = RecoverHE(img)
-        cv2.imwrite('OutputImages/' + prefix + '_HE.jpg', sceneRadiance)
+def run(base_path=None, input_dirname=None, output_dirname=None):
+
+	if base_path is None:
+		base_path = config.get('BASE_PATH')
+	if input_dirname is None:
+		input_dirname = config.get('INPUT_DIRNAME')
+	if output_dirname is None:
+		output_dirname = config.get('OUTPUT_DIRNAME')
+
+	in_path = os.path.join(base_path, input_dirname)
+	out_path = os.path.join(base_path, output_dirname)
+	files = os.listdir(in_path)
+	files =  natsort.natsorted(files)
+	before_paths = []
+	after_paths = []
+
+	for i in range(len(files)):
+		file = files[i]
+		filepath = os.path.join(in_path, file)
+		prefix = file.split('.')[0]
+		format_ = file.split('.')[1]
+		if os.path.isfile(filepath):
+			print('Working on', file)
+			before_paths.append(os.path.join(in_path, file))
+			img = cv2.imread(before_paths[-1])
+
+			sceneRadiance = RecoverHE(img)
+			
+			after_paths.append(os.path.join(out_path, prefix + '_HE.' + format_))
+			cv2.imwrite(after_paths[-1], sceneRadiance)
+	
+	return (before_paths, after_paths)
