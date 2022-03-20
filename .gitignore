@@ -8,3 +8,6 @@ ColorRestoration-UW/data/*
 !ColorRestoration-UW/data/input/test.file
 !ColorRestoration-UW/data/output/test.file
 
+fish/*
+shrimp/*
+
