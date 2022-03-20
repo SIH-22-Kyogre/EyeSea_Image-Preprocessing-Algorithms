@@ -57,7 +57,6 @@ def run(base_path=None, input_dirname=None, output_dirname=None):
 			
 			after_paths.append(os.path.join(out_path, prefix + '_GB-RC.' + format_))
 			cv2.imwrite(after_paths[-1], sceneRadiance)
-			cv2.imwrite(os.path.join(out_path, prefix + '_GB-RC_transmission.' + format_), np.uint8(transmission * 255))
 	
 	return (before_paths, after_paths)
 

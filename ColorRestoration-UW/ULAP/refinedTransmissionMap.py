@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-from GuidedFilter import GuidedFilter
+from .GuidedFilter import GuidedFilter
 
 
 def  refinedtransmissionMap(transmissionB,transmissionG,transmissionR,img):
