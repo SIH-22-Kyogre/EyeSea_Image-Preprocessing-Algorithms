@@ -1,15 +1,4 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Fri Nov 10 00:24:46 2017
 
-@author: https://github.com/joyeecheung/dark-channel-prior-dehazing
-"""
-
-"""Implementation for Guided Image Filtering
-Reference:
-http://research.microsoft.com/en-us/um/people/kahe/eccv10/
-"""
 
 from itertools import combinations_with_replacement
 from collections import defaultdict

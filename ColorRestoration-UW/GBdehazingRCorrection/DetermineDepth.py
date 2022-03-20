@@ -17,7 +17,6 @@ def getDarkChannel(img, blockSize):
     newHeight = img.shape[0] + blockSize - 1
     newWidth = img.shape[1] + blockSize - 1
 
-    # 中间结果
     imgMiddle = np.zeros((newHeight, newWidth))
     imgMiddle[:, :] = 0
     imgMiddle[addSize:newHeight - addSize, addSize:newWidth - addSize] = img
