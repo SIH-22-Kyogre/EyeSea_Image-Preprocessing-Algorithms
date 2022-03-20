@@ -1,8 +1,8 @@
 import numpy as np
 import cv2
 
-from GuidedFilter import GuidedFilter
-from guidedfilter_He import guided_filter_he
+from .GuidedFilter import GuidedFilter
+from .guidedfilter_He import guided_filter_he
 
 np.seterr(over='ignore')
 np.seterr(invalid ='ignore')

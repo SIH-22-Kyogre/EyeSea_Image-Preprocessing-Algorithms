@@ -1,5 +1,5 @@
 import numpy as np
-from getOneChannelMax import getMaxChannel
+from .getOneChannelMax import getMaxChannel
 
 def getGBMAxChannel(img):
     imgGray = np.zeros((img.shape[0], img.shape[1]), dtype=np.float64)
