@@ -1,4 +1,6 @@
 import matplotlib.pyplot as plot
+import sys
+import cv2
 
 import DCP as dcp 
 import LowComplexityDCP as lc_dcp
@@ -19,13 +21,16 @@ if __name__ == '__main__':
     # before_paths, after_paths = ibla.run()
     # before_paths, after_paths = mip.run()
     # before_paths, after_paths = nom.run() 
-    # before_paths, after_paths = rows.run()
+    before_paths, after_paths = rows.run()
     # before_paths, after_paths = udcp.run()
     # before_paths, after_paths = ulap.run()
 
-    if sys.argc>1 and '--visualize' in sys.argv:
-        fig, (ax1, ax2) = plot.subplots(1, 2)
-        ax1.plot(x, y)
-        ax2.plot(x, -y)
-        plot.show()
+    if len(sys.argv)>1 and '--visualize' in sys.argv:
+        for before, after in zip(before_paths, after_paths):
+            before_img = cv2.imread(before)
+            after_img = cv2.imread(after)
+            fig, (ax1, ax2) = plot.subplots(1, 2)
+            ax1.imshow(before_img)
+            ax2.imshow(after_img)
+            plot.show()
 

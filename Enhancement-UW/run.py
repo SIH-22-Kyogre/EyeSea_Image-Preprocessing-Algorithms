@@ -1,3 +1,7 @@
+import matplotlib.pyplot as plot
+import sys
+import cv2
+
 import CLAHE as clahe
 import GC as gc
 import ICM as icm
@@ -14,3 +18,12 @@ if __name__ == '__main__':
     # before_paths, after_paths = r_dist.run()
     # before_paths, after_paths = rghs.run()
     # before_paths, after_paths = ucm.run()
+
+    if len(sys.argv)>1 and '--visualize' in sys.argv:
+        for before, after in zip(before_paths, after_paths):
+            before_img = cv2.imread(before)
+            after_img = cv2.imread(after)
+            fig, (ax1, ax2) = plot.subplots(1, 2)
+            ax1.imshow(before_img)
+            ax2.imshow(after_img)
+            plot.show()
