@@ -18,7 +18,7 @@
 - RGHS: Shallow-Water Image Enhancement Using Relative Global Histogram Stretching Based on Adaptive Parameter Acquisition 
 - UCM: Enhancing the low quality images using Unsupervised Colour Correction Method
 - UMASK: U-sharp Masking
-- BI-LAT: Bilateral Filtering 
+- BF: Bilateral Filtering 
 
 ## Image Color Restoration Algorithms Implemented
 
