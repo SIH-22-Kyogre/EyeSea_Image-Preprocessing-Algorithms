@@ -16,7 +16,9 @@
 - ICM: Underwater Image Enhancement Using an Integrated Colour Model 
 - Rayleigh Distribution: Underwater image quality enhancement through composition of dual-intensity images and Rayleigh-stretching
 - RGHS: Shallow-Water Image Enhancement Using Relative Global Histogram Stretching Based on Adaptive Parameter Acquisition 
-- UCM: Enhancing the low quality images using Unsupervised Colour Correction Method 
+- UCM: Enhancing the low quality images using Unsupervised Colour Correction Method
+- UMASK: U-sharp Masking
+- BI-LAT: Bilateral Filtering 
 
 ## Image Color Restoration Algorithms Implemented
 
