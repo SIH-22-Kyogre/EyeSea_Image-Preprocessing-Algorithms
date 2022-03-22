@@ -3,6 +3,7 @@ import numpy as np
 import natsort
 import xlwt
 from skimage import filters
+import cv2
 
 from config import config
 
@@ -36,9 +37,9 @@ def run(base_path=None, input_dirname=None, output_dirname=None):
 			img = cv2.imread(before_paths[-1])
 
 			print(img.shape)
-			sceneRadiance = filters.unsharp_mask(img, channel_axis=2)
+			sceneRadiance = filters.unsharp_mask(img, multichannel=True)
 
-			after_paths.append(os.path.join(out_path, prefix + '_CLAHE.' + format_))
+			after_paths.append(os.path.join(out_path, prefix + '_UMASK.' + format_))
 			cv2.imwrite(after_paths[-1], sceneRadiance)
 	
 	return (before_paths, after_paths)
