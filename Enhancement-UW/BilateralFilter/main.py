@@ -2,7 +2,7 @@ import os
 import numpy as np
 import natsort
 import xlwt
-from skimage import filters, restoration
+from skimage import restoration, io
 import cv2
 
 from config import config
@@ -34,12 +34,11 @@ def run(base_path=None, input_dirname=None, output_dirname=None):
 		if os.path.isfile(filepath):
 			print('Working on', file)
 			before_paths.append(os.path.join(in_path, file))
-			img = cv2.imread(before_paths[-1])
+			img = io.imread(before_paths[-1])
 
-			print(img.shape)
-            sceneRadiance = restoration.denoise_bilateral(img)
+			sceneRadiance = restoration.denoise_bilateral(img, multichannel=True)
 
 			after_paths.append(os.path.join(out_path, prefix + '_BF.' + format_))
-			cv2.imwrite(after_paths[-1], sceneRadiance)
+			io.imsave(after_paths[-1], sceneRadiance)
 	
 	return (before_paths, after_paths)
