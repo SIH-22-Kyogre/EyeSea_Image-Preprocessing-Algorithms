@@ -2,7 +2,7 @@ import os
 import numpy as np
 import natsort
 import xlwt
-from skimage import filters
+from skimage import filters, restoration
 import cv2
 
 from config import config
@@ -37,9 +37,9 @@ def run(base_path=None, input_dirname=None, output_dirname=None):
 			img = cv2.imread(before_paths[-1])
 
 			print(img.shape)
-			sceneRadiance = filters.unsharp_mask(img, radius=1, amount=1)
+            sceneRadiance = restoration.denoise_bilateral(img)
 
-			after_paths.append(os.path.join(out_path, prefix + '_UMASK.' + format_))
+			after_paths.append(os.path.join(out_path, prefix + '_BF.' + format_))
 			cv2.imwrite(after_paths[-1], sceneRadiance)
 	
 	return (before_paths, after_paths)
