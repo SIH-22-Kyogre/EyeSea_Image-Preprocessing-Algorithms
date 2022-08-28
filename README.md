@@ -1,3 +1,5 @@
+# Preprocessing experiments and applicators for EyeSea
+
 ## Procedure to Execute
 
 - Place input images in `data/input/` directory of corresponding processing operations (i.e Color Restoration or Enhancement)
