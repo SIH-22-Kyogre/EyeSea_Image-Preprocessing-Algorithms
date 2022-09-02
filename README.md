@@ -1,6 +1,6 @@
 # Preprocessing for EyeSea
 
-Preprocessing experiments and applicators for EyeSea. Callable image enhancement and and restoration APIs.
+Preprocessing experiments and applicators for EyeSea. Callable image enhancement and restoration APIs.
 
 ## Procedure to Execute
 
