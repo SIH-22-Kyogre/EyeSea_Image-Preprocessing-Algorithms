@@ -14,7 +14,7 @@
 - The processed images are stored in the corresponding `data/output/` directory.
 
 
-## Image Enhancement Algorithms Implemented
+## Image Enhancement Algorithms
 
 - **CLAHE**: Contrast limited adaptive histogram equalization.
 - **GC**: Gamma Correction.
@@ -26,7 +26,7 @@
 - **UMASK**: Unsharp Masking.
 - **BF**: Bilateral Filtering. 
 
-## Image Color Restoration Algorithms Implemented
+## Image Color Restoration Algorithms
 
 - **DCP**: Single Image Dehazing using Dark Channel Prior.
 - **GB Dehazing R Correction**: Single underwater image restoration by blue-green channels dehazing and red channel correction.
